@@ -3,6 +3,9 @@ package com.soft1851.usercenter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author tengf
+ */
 @SpringBootApplication
 public class UserCenterApplication {
 

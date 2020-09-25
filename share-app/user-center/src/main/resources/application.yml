@@ -1,15 +1,17 @@
 server:
-  port: 8084
+  port: 8083
 spring:
   application:
-    name: content-center
+    name: user-center
   cloud:
-   nacos:
-    discovery:
-      server-addr: localhost:8848
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        metadata:
+          instance: aa
 
   datasource:
-    url: jdbc:mysql://39.97.173.29:3306/content_center
+    url: jdbc:mysql://39.97.173.29:3306/user_center
     hikari:
       username: root
       password: abc.123
