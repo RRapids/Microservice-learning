@@ -2,7 +2,6 @@ package ribbonConfg;
 
 import com.netflix.loadbalancer.IRule;
 import com.netflix.loadbalancer.RandomRule;
-import com.netflix.ribbon.Ribbon;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @Description:
  * @date: 2020/9/25 11:20
  */
-@Configuration
+//@Configuration
 public class RibbonConfig {
     @Bean
     public IRule ribbonRule() {

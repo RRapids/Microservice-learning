@@ -1,5 +1,5 @@
 server:
-  port: 8083
+  port: 0
 spring:
   application:
     name: user-center
@@ -7,8 +7,9 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
-        metadata:
-          instance: aa
+#        metadata:
+#          instance: aa
+#          namespace: 4eef7a74-a5bd-4ee2-b770-90b209d5417f
 
   datasource:
     url: jdbc:mysql://39.97.173.29:3306/user_center
