@@ -1,8 +1,12 @@
 package com.soft1851.contentcenter.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.soft1851.contentcenter.dao.MidUserShareMapper;
 import com.soft1851.contentcenter.dao.ShareMapper;
 import com.soft1851.contentcenter.domain.dto.ShareDto;
 import com.soft1851.contentcenter.domain.dto.UserDTO;
+import com.soft1851.contentcenter.domain.entity.MidUserShare;
 import com.soft1851.contentcenter.domain.entity.Share;
 import com.soft1851.contentcenter.feignclient.UserCenterFeignClient;
 import com.soft1851.contentcenter.service.ShareService;
@@ -11,8 +15,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.util.StringUtil;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName ShareServiceImpl
@@ -26,6 +33,7 @@ import java.util.List;
 public class ShareServiceImpl implements ShareService {
     private final ShareMapper shareMapper;
     private final UserCenterFeignClient userCenterFeignClient;
+    private final MidUserShareMapper midUserShareMapper;
 
 
     @Override
@@ -40,12 +48,54 @@ public class ShareServiceImpl implements ShareService {
         // 3. 难以相应需求的变化，变化很没有幸福感
         // 4. 编程体验不统一
         UserDTO userDTO = this.userCenterFeignClient.findUserById(userId);
-
         ShareDto shareDTO = new ShareDto();
+        shareDTO.setShare(share);
         // 属性的装配
-        BeanUtils.copyProperties(share, shareDTO);
+//        BeanUtils.copyProperties(share, shareDTO);
         shareDTO.setWxNickname(userDTO.getWxNickname());
         return shareDTO;
+    }
+
+    @Override
+    public PageInfo<Share> query(String title, Integer pageNo, Integer pageSize, Integer userId) {
+        //启动分页
+        PageHelper.startPage(pageNo, pageSize);
+        //构造查询实例
+        Example example = new Example(Share.class);
+        Example.Criteria criteria = example.createCriteria();
+        //如标题关键字不空，则加上模糊查询条件，否则结果即所有数据
+        if (StringUtil.isNotEmpty(title)) {
+            criteria.andLike("title", "%" + title + "%");
+        }
+        //执行按条件拆查询
+        List<Share> shares = this.shareMapper.selectByExample(example);
+        //处理后的Share数据列表
+        List<Share> sharesDeal;
+        //1. 如果用户未登录，那么downloadUrl全部设为null
+        if (userId == null) {
+            sharesDeal = shares.stream()
+                    .peek(share -> {
+                        share.setDownloadUrl(null);
+
+                    })
+                    .collect(Collectors.toList());
+        }
+        else {
+            sharesDeal = shares.stream()
+                    .peek(share -> {
+                        MidUserShare midUserShare = this.midUserShareMapper.selectOne(
+                                MidUserShare.builder()
+                                        .userId(userId)
+                                        .shareId(share.getId())
+                                        .build()
+                        );
+                        if (midUserShare == null) {
+                            share.setDownloadUrl(null);
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
+        return new PageInfo<>(sharesDeal) ;
     }
 
     @Override

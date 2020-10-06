@@ -1,5 +1,6 @@
 package com.soft1851.contentcenter;
 
+import com.purgeteam.dispose.starter.annotation.EnableGlobalDispose;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
@@ -14,6 +15,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @MapperScan("com.soft1851.contentcenter.dao")
 @SpringBootApplication
 @EnableFeignClients
+@EnableGlobalDispose
 public class ContentCenterApplication {
 
     public static void main(String[] args) {
