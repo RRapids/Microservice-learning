@@ -1,5 +1,5 @@
 server:
-  port: 0
+  port: 8877
 spring:
   application:
     name: user-center
@@ -26,3 +26,6 @@ management:
   endpoint:
     health:
       show-details: always
+
+rocketmq:
+  name-server: 101.200.130.236:9876

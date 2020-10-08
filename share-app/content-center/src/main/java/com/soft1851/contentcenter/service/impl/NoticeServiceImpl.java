@@ -31,4 +31,5 @@ public class NoticeServiceImpl implements NoticeService {
         criteria.andEqualTo("showFlag", 1);
         return noticeMapper.selectByExample(example).get(0);
     }
+
 }

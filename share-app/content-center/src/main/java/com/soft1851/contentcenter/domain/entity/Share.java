@@ -131,7 +131,7 @@ public class Share {
     /**
      * 审核不通过原因
      */
-    @Column(name = "audit_status")
-    @ApiModelProperty(name = "auditStatus", value = "审核不通过原因")
+    @Column(name = "reason")
+    @ApiModelProperty(name = "reason", value = "审核不通过原因")
     private String reason;
 }

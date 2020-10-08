@@ -31,6 +31,7 @@ management:
       show-details: always
 
 
+
 user-center:
   ribbon:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
@@ -61,3 +62,9 @@ feign:
 #    # feign单个路径的最大连接数
 
 #    max-connections-per-route: 50
+
+rocketmq:
+  name-server: 101.200.130.236:9876
+  producer:
+    # 必须指定group
+    group: test-group

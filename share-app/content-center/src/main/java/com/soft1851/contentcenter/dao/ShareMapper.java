@@ -11,4 +11,5 @@ import tk.mybatis.mapper.common.Mapper;
  * @Date 2020/9/26
  **/
 public interface ShareMapper extends Mapper<Share> {
+//    int insert(Share share);
 }

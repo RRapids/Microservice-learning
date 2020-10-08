@@ -1,15 +1,14 @@
 package com.soft1851.contentcenter.controller;
 
+import com.soft1851.contentcenter.domain.dto.ShareContributeDto;
 import com.soft1851.contentcenter.domain.dto.ShareDto;
 import com.soft1851.contentcenter.domain.dto.UserDTO;
 import com.soft1851.contentcenter.domain.entity.Share;
 import com.soft1851.contentcenter.feignclient.TestUserCenterFeignClient;
 import com.soft1851.contentcenter.service.ShareService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -60,5 +59,10 @@ public class ShareController {
             pageSize = 100;
         }
         return this.shareService.query(title, pageNo, pageSize, userId).getList();
+    }
+
+    @PostMapping("/contribute")
+    public int contribute(@RequestBody ShareContributeDto shareContributeDto){
+        return shareService.contribute(shareContributeDto);
     }
 }
